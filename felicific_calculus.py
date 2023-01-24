@@ -25,7 +25,7 @@ Variables:
 
 Formula:
     For each agent (or group of agents equally) affected by the action, the moral value of the action is calculated as follows:
-        C * (I * D * N * M) must be calculated for each pleasure and pain, and for each 2nd order pleasure and pain.
+        C * (I * D * N * E) must be calculated for each pleasure and pain, and for each 2nd order pleasure and pain.
         For 2nd order pleasure and pain, the same formula is used, but C is replaced with F or P, respectively.
         Pain is calculated as a negative value, and pleasure is calculated as a positive value.
         The sum of all of these values is the moral value of the action for this/these agent(s).
@@ -34,6 +34,7 @@ Formula:
 """
 
 import math
+import random
 
 
 class Agent:
@@ -222,6 +223,7 @@ class EvaluateDecisions:
         if self.setSelfInterestScale is not None:
             decision.setSelfInterestScale(self.selfInterestScale)
         self.decisions.append((decisionName, decision))
+        random.shuffle(self.decisions)  # we randomize this so that, with equal moral values, we choose a random decision
 
     def setSelfInterestScale(self, selfInterestScale):
         if selfInterestScale > 1 or selfInterestScale < 0:
@@ -258,7 +260,6 @@ class EvaluateDecisions:
     # prints the decision with the negative moral value closest to 0
     def printDecisionWithLeastNegativeValue(self):
         bestDecisionName, bestDecision = max(self.decisions, key=lambda x: x[1].getNegativeMoralValue())
-
         print(
             "The best decision from a Negative Utilitarian perspective is: " + bestDecisionName + ". with a moral value of " + str(
                 bestDecision.getMoralValue()))
@@ -274,3 +275,11 @@ class EvaluateDecisions:
     def getDecisionWithLeastNegativeValue(self):
         bestDecisionName, bestDecision = max(self.decisions, key=lambda x: x[1].getNegativeMoralValue())
         return bestDecisionName
+
+    def getListOfDecisionsWithHighestValue(self):
+        bestDecisionName, bestDecision = max(self.decisions, key=lambda x: x[1].getMoralValue())
+        listOfDecisions = []
+        for decision in self.decisions:
+            if decision[1].getMoralValue() == bestDecision.getMoralValue():
+                listOfDecisions.append(decision[0])
+        return listOfDecisions
