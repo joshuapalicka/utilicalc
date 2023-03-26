@@ -30,16 +30,19 @@ Variables:
 Formula:
 
     For each actor affected by the action, the moral value of the action is calculated as follows:
-        C * (I * D * N * E) must be calculated for each pleasure and pain that happens as a result of the action, 
-        and for each 2nd order pleasure and pain. For 2nd order pleasure and pain, the same formula is used, but C is replaced
-        with F or P, respectively. Pain is calculated as a negative value, and pleasure is calculated as a positive value.
-        The sum of all of these values is the moral value of the action for this/these actor(s).
+        C * (I * D * N * E) must be calculated for each pleasure and pain that happens as a result of 
+        the action, and for each 2nd order pleasure and pain. For 2nd order pleasure and pain, the same
+        formula is used, but C is replaced with F or P, respectively. Pain is calculated as a negative 
+        value, and pleasure is calculated as a positive value. The sum of all of these values is the 
+        moral value of the action for this/these actor(s).
 
-    The summation of all actor's calculated moral values for the action are summed together to get the total moral value of an action.
-    One can use this formula to calculate the moral value for all decisions they can make in a situation, and choose the 
-    decision with the most-positive moral value, or, in the case of negative utilitarianism, the least-negative moral value.
+    The summation of all actor's calculated moral values for the action are summed together to get the
+    total moral value of an action. One can use this formula to calculate the moral value for all decisions 
+    they can make in a situation, and choose the decision with the most-positive moral value, or, in the case 
+    of negative utilitarianism, the least-negative moral value.
 
 Getting Started:
+<br>
 First, create an ActionSelector. This object holds multiple possible actions for which to choose from. Then, for each possible
 act, create an Act object, and use the createActor function to create an actor for each actor that may be affected by the decision.
 Once this is complete, call ActionSelector.getActWithHighestValue() to return the best (highest utility) action.
