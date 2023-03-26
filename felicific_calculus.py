@@ -1,38 +1,3 @@
-"""
-The purpose of this class is to provide a set of methods for calculating the moral value of an action.
-The moral value of an action is the sum of the moral value of the consequences of the action.
-We will calculate this by using Jeremy Bentham's formula, called "Felicific Calculus", "Hedonic Calculus", or
-"Utilitarian Calculus", which is defined as such:
-
-Variables:
-    For pleasure:
-    I = the intensity of pleasure
-    D = the duration of pleasure
-    C = certainty of pleasure
-    N = propinquity or nearness in time of the pleasure
-    F = fecundity or probability of 2nd order pleasure (the pleasure stemming from the pleasure)
-    P = purity or probability of 2nd order pain (the pain stemming from the pleasure)
-    E = how many people are affected by the pleasure
-
-    For pain:
-    I = the intensity of pain
-    D = the duration of pain
-    C = certainty of pain
-    N = propinquity or nearness in time of the pain
-    F = fecundity or probability of 2nd order pain (the pain stemming from the pain)
-    P = purity or probability of 2nd order pleasure (the pleasure stemming from the pain)
-    E = how many people are affected by the pain
-
-Formula:
-    For each actor (or group of actors equally) affected by the action, the moral value of the action is calculated as follows:
-        C * (I * D * N * E) must be calculated for each pleasure and pain, and for each 2nd order pleasure and pain.
-        For 2nd order pleasure and pain, the same formula is used, but C is replaced with F or P, respectively.
-        Pain is calculated as a negative value, and pleasure is calculated as a positive value.
-        The sum of all of these values is the moral value of the action for this/these actor(s).
-
-    All of these values are summed together to get the total moral value of an action.
-"""
-
 import math
 import random
 
@@ -62,6 +27,7 @@ class Actor:
 
     Methods:
         getMoralValue() returns the moral value of the action
+        getNegativeMoralValue() returns the negative moral value of the action -- used in negative utilitarian calculation
     """
 
     def __init__(self, isPleasure, intensity, duration, certainty, propinquity, fecundity, purity, extent,
@@ -122,12 +88,14 @@ class Act:
     actors = a list of actors affected by the act
 
     Methods:
-        createActor() creates an actor to add to the act
-        getMoralValue() returns the summed moral value of the act for all actors
-        setSelfInterestScale() sets the self-interest scale
-        checkForActMaker() checks if there is a act maker among the actors
+    createActor() creates an actor and adds it to the act
+    getActors() returns the list of actors
+    getSelfInterestScale() returns the current self-interest scale
+    setSelfInterestScale(selfInterestScale) sets the self-interest scale for the act
+    getMoralValue() returns the summed moral value of the act for all actors
+    getNegativeMoralValue() returns the summed negative moral value of the act for all actors
+    hasActMaker() checks if there is an act maker among the actors
     """
-
     def __init__(self, selfInterestScale=None):
         self.selfInterestScale = selfInterestScale
         self.actors = []
@@ -190,16 +158,22 @@ class ActionSelector:
     Evaluates multiple acts, which are added to this object
 
     Variables:
-    selfInterestScale = the scale of self-interest (0 = altruistic, 1 = egoistic)
-    acts = the acts to be evaluated
+        selfInterestScale = the scale of self-interest (0 = altruistic, 1 = egoistic)
+        acts = the acts to be evaluated
 
     Methods:
-        addAct() adds a act to the list of acts
-        setSelfInterestScale() sets the self-interest scale for all acts
+        getSelfInterestScale() returns the current self-interest scale
+        getActs() returns the list of acts
+        addAct(actName, act) adds an act to the list of acts
+        setSelfInterestScale(selfInterestScale) sets the self-interest scale for all acts
         printMoralValueForAllActs() prints the moral value for all acts
-        printBestAct() prints the act with the highest moral value
-        getBestAct() returns the name of the act with the highest moral value
-    """
+        printActWithHighestValue() prints the act with the highest moral value
+        printActWithLeastNegativeValue() prints the act with the least negative moral value
+        getActWithHighestValue() returns the name of the act with the highest moral value
+        getActWithLeastNegativeValue() returns the name of the act with the least negative moral value
+        getListOfActsWithHighestValue() returns a list of act names with the highest moral value
+        getListOfActsWithLeastNegativeValue() returns a list of act names with the least negative moral value
+"""
 
     def __init__(self):
         self.selfInterestScale = None
